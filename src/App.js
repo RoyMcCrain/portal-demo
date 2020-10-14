@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { createPortal } from "react-dom"
-import logo from './logo.svg';
 import './App.css';
 
 function Portal({ children }) {
@@ -9,10 +8,15 @@ function Portal({ children }) {
   )
 }
 
-function Modal({ isOpen }) {
+function Modal({ isOpen, onClose }) {
   return (
     <Portal>
-      {isOpen && <div>Modalです</div>}
+      {isOpen &&
+        <div className="modal-base" onClick={onClose}>
+          <div className="modal-content">
+            <p>Modalです</p>
+          </div>
+        </div>}
     </Portal>
   )
 }
@@ -25,7 +29,7 @@ function App() {
       <div className="App">
         <button onClick={() => { setOpen(!isOpen) }}>Push</button>
       </div>
-      <Modal isOpen={isOpen} />
+      <Modal isOpen={isOpen} onClose={() => setOpen(false)} />
     </>
   );
 }
