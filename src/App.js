@@ -12,14 +12,12 @@ function Portal({ children }) {
 
 function Modal({ isOpen, onClose }) {
   const ref = useRef(null);
-  const [isShow, setShow] = useState(false);
 
   // 開くとき 表示した後にアニメーション
   // 閉じるとき アニメーション終わった（0.4s）後に非表示にする
   const callBacks = {
     onEnter: () => {
       console.log("onEnter")
-      setShow(true)
     },
     onEntering: () => {
       console.log("onEntering")
@@ -35,19 +33,17 @@ function Modal({ isOpen, onClose }) {
     },
     onExited: () => {
       console.log("onExited")
-      setShow(false)
     },
   };
   return (
     <Portal>
-      <CSSTransition classNames="modal" in={isOpen} timeout={{ enter: 1000, exit: 1000 }}  {...callBacks} nodeRef={ref}>
+      <CSSTransition classNames="modal" in={isOpen} timeout={{ enter: 1000, exit: 1000 }}  {...callBacks} nodeRef={ref} unmountOnExit>
         <>
-          {isShow &&
-            <div className="modal-base" onClick={onClose}>
-              <div className="modal-content" ref={ref}>
-                <p>Modalです</p>
-              </div>
-            </div>}
+          <div className="modal-base" onClick={onClose}>
+            <div className="modal-content" ref={ref}>
+              <p>Modalです</p>
+            </div>
+          </div>
         </>
       </CSSTransition>
     </Portal>
