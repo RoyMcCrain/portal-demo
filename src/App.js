@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from "react-dom"
 import './App.css';
+import { CSSTransition } from 'react-transition-group';
+
 
 function Portal({ children }) {
   return (
@@ -9,14 +11,45 @@ function Portal({ children }) {
 }
 
 function Modal({ isOpen, onClose }) {
+  const ref = useRef(null);
+  const [isShow, setShow] = useState(false);
+
+  // 開くとき 表示した後にアニメーション
+  // 閉じるとき アニメーション終わった（0.4s）後に非表示にする
+  const callBacks = {
+    onEnter: () => {
+      console.log("onEnter")
+      setShow(true)
+    },
+    onEntering: () => {
+      console.log("onEntering")
+    },
+    onEntered: () => {
+      console.log("onEntered")
+    },
+    onExit: () => {
+      console.log("onExit")
+    },
+    onExiting: () => {
+      console.log("onExitiNg")
+    },
+    onExited: () => {
+      console.log("onExited")
+      setShow(false)
+    },
+  };
   return (
     <Portal>
-      {isOpen &&
-        <div className="modal-base" onClick={onClose}>
-          <div className="modal-content">
-            <p>Modalです</p>
-          </div>
-        </div>}
+      <CSSTransition classNames="modal" in={isOpen} timeout={{ enter: 1000, exit: 1000 }}  {...callBacks} nodeRef={ref}>
+        <>
+          {isShow &&
+            <div className="modal-base" onClick={onClose}>
+              <div className="modal-content" ref={ref}>
+                <p>Modalです</p>
+              </div>
+            </div>}
+        </>
+      </CSSTransition>
     </Portal>
   )
 }

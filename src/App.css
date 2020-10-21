@@ -14,4 +14,31 @@
   margin: 10%;
   height: 50%;
   background: white;
+  transform: scale(0);
+}
+
+.modal-enter {
+  transform: scale(0);
+}
+
+.modal-enter-active {
+  transition-duration:  1s;
+  transform: scale(1);
+}
+
+.modal-enter-done {
+  transform: scale(1);
+}
+
+.modal-exit {
+  transform: scale(1);
+}
+
+.modal-exit-active {
+  transition-duration:  1s;
+  transform: scale(0);
+}
+
+.modal-exit-done {
+  transform: scale(0);
 }
